@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+{% block body %}
+    
+    {% if results %}
+    <div id="accordion"></div>
+   
+    
+    <div id="accordion">
+      <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+            N11 Result
+          </a>
+        </div>
+        <div id="collapseThree" class="collapse show" data-parent="#accordion">
+          <div class="card-body">
+            {{results[0]}}
+          </div>
+        </div>
+      </div>
+    <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+            TrendYol Result
+          </a>
+        </div>
+        <div id="collapseFour" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            {{results[1]}}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+            Hepsiburada Result
+          </a>
+        </div>
+        <div id="collapseFive" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            {{results[2]}}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <a class="card-link" data-toggle="collapse" href="#collapseOne">
+            Amazon Result
+          </a>
+        </div>
+        <div id="collapseOne" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            {{results[3]}}
+          </div>
+        </div>
+      </div>
+    
+      <div class="card">
+        <div class="card-header">
+          <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo">
+            Çiçek Sepeti
+          </a>
+        </div>
+        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+          <div class="card-body">
+            {{results[4]}}
+          </div>
+        </div>
+      </div>
+    
+      
+    
+      
+
+    </div>
+    
+            
+        
+    
+    </div>
+    {% else %}
+        <h4>There is no page like this.</h4>
+    {% endif %}
+    
+{% endblock  %}

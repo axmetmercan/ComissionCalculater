@@ -1,0 +1,130 @@
+
+
+{% block body %}
+
+    <div class="card border border-info " style="width: auto;">
+        <div class="card-body">
+        
+            <h5 class="card-title" >Comission Calculator</h5>
+            <h6 class="card-subtitle mb-auto text-muted">For e-commerce websites</h6>
+            <hr>
+
+            <p class="card-text text-muted " >Table informations will be displayed by using N11 based calculations. So be aware of that
+                system will use N11 conditions by defaut and it can not change.
+            </p>
+
+            {% from "includes/formhelpers.html" import render_field %}
+                <form  method=post>
+                    <div class="card shadow-lg p-3 mb-3 bg-white rounded">
+                        <div class= 'd-md-inline-flex   justify-content-between mx-3 flex-nowrap ' >
+                        
+                            {{ render_field(plat.n11, class = 'form-control col-md-6') }}
+                            {{ render_field(plat.tyol, class = 'form-control col-md-6') }}
+                            {{ render_field(plat.hb, class = 'form-control col-md-6') }}
+                            {{ render_field(plat.gg, class = 'form-control col-md-6') }}
+                            {{ render_field(plat.cicek_sepeti, class = 'form-control col-md-6') }}
+                            {{ render_field(plat.amzn, class = 'form-control col-md-6') }}
+    
+                        </div>
+                        <div class="d-flex flex-row mx-3 ">{{ render_field(plat.default_commission, checked='True') }}</p></div>
+
+                    </div class='col-12'>  
+                    <div class="mx-3 mb-3  row">
+                        {{ render_field(form.name, class = 'form-control  ', placeholder="To save it it's neccessary.") }}
+                        {{ render_field(form.barcode, class = 'form-control  ', placeholder="To save it it's neccessary.") }}
+
+                    </div>
+                    <div class='d-md-inline-flex justify-content-between col mb-3'>
+                        {{ render_field(form.buy_price, class = 'form-control col-md-6') }}
+                        {{ render_field(form.sell_price, class = 'form-control col-md-6') }}
+                        {{ render_field(form.tax_rate, class = 'form-control col-md-6') }}
+                        {{ render_field(form.cargo_price, class = 'form-control col-md-6') }}
+                    </div>
+                <div class="d-flex justify-content-md-end">
+                <button type="submit"  value='calc' name= 'calc' class="btn btn-success  mr-auto mx-3">Calculate</button>
+                <button type="submit" name='calcsave', value='calcsave' class="btn btn-success mr-sm-2">Calculate and Save</button>
+                
+            </div>
+            </form>
+            {% if db_results.items == [] %}
+                
+            {% else %}
+                <table class="table table-hover mx-2 mt-5 ">
+                <thead>
+                  <tr>
+                    <th scope="col">id</th>
+                    <th scope="col" >Name</th>
+                    <th scope="col" >Barcode</th>
+                    <th scope="col">Buy Price</th>
+                    <th scope="col">Sell Price</th>
+                    <th scope="col">Cargo</th>
+                    <th scope="col">Tax Rate</th>
+                    <th scope="col">Income</th>
+                    <th scope="col" class="col-1">Details</th>
+                    <th scope="col" class="col-1">Delete</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for result in db_results.items %}
+                        
+                   
+                    <tr>
+                    <th scope="row">{{result.id}}</th>
+                    <td class="col-2">{{result.title}}</td>
+                    <td>{{result.barcode}}</td>
+                    <td>{{result.buy}}</td>
+                    <td>{{result.sell}}</td>
+                    <td>{{result.cargo}}</td>
+                    <td>{{result.n11_comission}}</td>
+                    <td>{{result.income}}</td>
+                    <td class="col-1"><a href="/details/{{result.id}}" class="btn btn-info">Details</a></td>
+                    <td class="col-1"><a href="/delete/{{result.id}}" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            {% endif %}
+            
+                  
+              </table>
+
+                
+              <div>
+                <div class="text-center">
+                    <a href="{{ url_for('index', page=db_results.prev_num) }}"
+                       class="btn btn-outline-info {% if db_results.page == 1 %}disabled{% endif %}">
+                        &laquo;
+                    </a>
+
+                    {% for page_num in db_results.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                    {% if page_num%}
+                    <!-- Check for the active page and set the link to "Active"-->
+                                {% if db_results.page == page_num %}
+                                <a href="{{ url_for('index', page=page_num) }}"
+                                   class="btn btn-info">
+                                    {{ page_num }}
+                                </a>
+                                {% else %}
+                                <a href="{{ url_for('index', page=page_num) }}"
+                                   class="btn btn-outline-info">
+                                    {{ page_num }}
+                                </a>
+                                {% endif %}
+                            {% else %}
+                                ...
+                            {% endif %}
+                        {% endfor %}
+                    
+                    
+                    <a href="{{ url_for('index', page=db_results.next_num) }}"
+                    class="btn btn-outline-info {% if db_results.page == db_results.pages %}disabled{% endif %}">
+                     &raquo;
+                 </a>
+
+              </div>
+
+            
+     
+        </div>
+  </div>
+{% endblock body %}
